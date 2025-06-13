@@ -27,27 +27,41 @@ class ListNode:
         return f"{self.val} -> {self.next}"
 
 def mergeKLists(lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-    # Dummy head to simplify appending nodes
+    # Dummy head to simplify node merging
     dummy = ListNode()
     curr = dummy
 
-    # Min heap to store (value, list index, node)
+    # Min-heap to store (node value, list index, node)
     min_heap: List[Tuple[int, int, ListNode]] = []
 
-    # Push the first node of each list into the heap
+    # Step 1: Initialize the heap with the first node from each list
     for i, node in enumerate(lists):
         if node:
             heapq.heappush(min_heap, (node.val, i, node))
 
-    # Extract min and push next node of that list into heap
+    # Step 2: Extract min node and push its next node into the heap
+    # Dry run input example:
+    # lists = [
+    #     1 -> 4 -> 5,
+    #     1 -> 3 -> 4,
+    #     2 -> 6
+    # ]
+    # Initial heap after pushing heads:
+    # heap = [(1, 0, node_0), (1, 1, node_1), (2, 2, node_2)]
+
     while min_heap:
         val, i, node = heapq.heappop(min_heap)
-        curr.next = node
-        curr = curr.next
+        curr.next = node  # Append to result list
+        curr = curr.next  # Move pointer forward
+
+        # Push the next node from the same list, if exists
         if node.next:
             heapq.heappush(min_heap, (node.next.val, i, node.next))
 
     return dummy.next
+
+# Final output for the dry run example:
+# 1 -> 1 -> 2 -> 3 -> 4 -> 4 -> 5 -> 6
 
 """
 🧪 Example Input:
