@@ -25,7 +25,7 @@ class Solution:
         p = m + n - 1  # Pointer for placement in nums1
 
         # Merge from the end to avoid overwriting
-        while p2 >= 0:
+        while p2 >= 0: # only need to check nums2, because leftover nums1 is already in place
             if p1 >= 0 and nums1[p1] > nums2[p2]:
                 nums1[p] = nums1[p1]
                 p1 -= 1
