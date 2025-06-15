@@ -22,3 +22,45 @@ class Solution:
             b = b.parent if b else p
         
         return a
+
+# Dry Run Example for LCA with Parent Pointers
+
+# Tree Structure:
+#         T
+#        / \
+#       U   V
+#      /   / \
+#     W   X   Y
+#        /
+#       Z
+
+# Parent relationships:
+# W.parent = U
+# U.parent = T
+# Z.parent = X
+# X.parent = V
+# V.parent = T
+
+# Inputs:
+# p = W
+# q = Z
+
+# Two-pointer initialization:
+# a = W
+# b = Z
+
+# Step-by-step traversal:
+# Step 1: a = W       | b = Z
+# Step 2: a = U       | b = X
+# Step 3: a = T       | b = V
+# Step 4: a = None    | b = T
+# Step 5: a = Z (switch to q) | b = None
+# Step 6: a = X       | b = W (switch to p)
+# Step 7: a = V       | b = U
+# Step 8: a = T       | b = T  ✅
+
+# Result:
+# a == b == T → This is the Lowest Common Ancestor (LCA)
+
+# ✅ This two-pointer technique works like finding the intersection of two linked lists:
+# Both pointers traverse p's path + q's path, ensuring equal steps before meeting at LCA.
