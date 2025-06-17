@@ -11,6 +11,8 @@
 # → Index 0 should be picked 25% of the time
 # → Index 1 should be picked 75% of the time
 
+# 📚 Pattern: Prefix Sum + Binary Search + Random Sampling
+
 # 🔍 Key Insight:
 # Convert weights into a **prefix sum array**:
 #   w = [1, 3] → prefix_sums = [1, 4]
@@ -38,7 +40,7 @@ class Solution:
         self.total_sum = total
 
     def pickIndex(self) -> int:
-        target = random.randint(1, self.total_sum)
+        target = random.randint(1, self.total_sum) # random num picked btw 1 and total sum
         return bisect.bisect_left(self.prefix_sums, target)
 
 # 🔁 Dry Run Example:
@@ -50,6 +52,17 @@ class Solution:
 #   2, 3, 4 → index 1
 #   5, 6 → index 2
 
+# Manual Binary Search | bisect.bisect_left(self.prefix_sums, target)
+# def binary_search(prefix_sums, target):
+#    left, right = 0, len(prefix_sums) - 1
+#    while left < right:
+#        mid = (left + right) // 2
+#        if prefix_sums[mid] < target:
+#            left = mid + 1
+#        else:
+#            right = mid
+#    return left
+
 # 📌 Common Gotchas:
 # - Don't use `random.randint(0, total)` — it must be 1-based to match prefix sum indexing.
 # - Must use `bisect.bisect_left`, not right
@@ -59,5 +72,3 @@ class Solution:
 # - Prefix sum to map values to cumulative ranges
 # - Binary search to locate which range a random number falls into
 # - Efficient O(log n) weighted sampling
-
-# 📚 Pattern: Prefix Sum + Binary Search + Random Sampling
