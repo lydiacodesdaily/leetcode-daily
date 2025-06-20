@@ -8,6 +8,11 @@
 # 🔍 Key Insight:
 # Use a **hashmap** to count frequency and a **heap** to extract top `k` elements efficiently.
 
+# 🧠 Memory Hook:
+# build freq map → Counter(nums)
+# push (count, num) into min-heap → size > k → pop smallest
+# return only elements → [num for count, num in heap]
+
 # ✅ Time Complexity:
 # - O(n) to count frequencies
 # - O(n log k) to maintain a heap of size k

@@ -1,20 +1,29 @@
-# 88. Merge Sorted Array
+# LeetCode 88 - Merge Sorted Array
 # https://leetcode.com/problems/merge-sorted-array/
 
-"""
-🧠 Pattern: Two Pointers (Back to Front)
-🎯 Problem: Merge two sorted arrays in-place — nums1 and nums2.
-📌 Constraints:
-- nums1 has size m + n; only first m elements are valid
-- nums2 has n elements
-- Merge nums2 into nums1 so the result is sorted
+# ✅ Problem:
+# Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+# nums1 has a length of m + n, where the last n elements are 0 and should be ignored.
+# Modify nums1 in-place.
 
-⏰ Time Complexity: O(m + n)
-📦 Space Complexity: O(1) — in-place
+# 📚 Pattern: Two Pointers (Reverse Merge)
 
-Why this works:
-- Start filling from the back (index m + n - 1) to avoid overwriting nums1's valid values.
-"""
+# 🧠 Memory Hook:
+# merge from end → use empty slots at end of nums1
+# p1 = end of nums1's real data, p2 = end of nums2
+# compare & insert largest → move backward
+# only loop until p2 < 0 (nums1 already in place)
+
+# ✅ Time Complexity: O(m + n)
+# ✅ Space Complexity: O(1) — in-place
+
+# 🔍 Key Insight:
+# Start filling nums1 from the back to avoid overwriting its own elements
+
+# 📌 Common Gotchas:
+# - Don’t overthink edge cases when nums1 has zeros at the end
+# - No need to copy remaining nums1 values; they’re already in place
+# - Only loop while p2 >= 0
 
 from typing import List
 

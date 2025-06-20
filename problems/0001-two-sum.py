@@ -8,6 +8,11 @@
 # You may assume that each input has exactly one solution,
 # and you may not use the same element twice.
 
+# 🧠 Memory Hook:
+# for each num → check if (target - num) is in map
+# if found → return [map[complement], i]
+# else → store num:index in map
+
 # ✅ Time Complexity: O(n)
 # ✅ Space Complexity: O(n)
 

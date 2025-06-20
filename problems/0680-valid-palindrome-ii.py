@@ -4,6 +4,11 @@
 # ✅ Problem:
 # Given a string s, return true if the s can be a palindrome after deleting at most one character.
 
+# 🧠 Memory Hook:
+# two pointers: left, right
+# if mismatch → try skipping left or right char
+# return True if either half is palindrome
+
 # 🔍 Key Insight:
 # Use the **Two Pointers** technique to compare characters from both ends.
 # If a mismatch occurs, try skipping either the left or right character.
