@@ -1,16 +1,24 @@
-# 34. Find First and Last Position of Element in Sorted Array
+# LeetCode 34 - Find First and Last Position of Element in Sorted Array
 # https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 
-"""
-🧠 Pattern: Binary Search (Lower/Upper Bound)
-🎯 Problem: Return the starting and ending position of a given target value in a sorted array.
-📌 Constraints:
-- Array is non-decreasing (sorted)
-- Must run in O(log n) time
+# ✅ Problem:
+# Given an array of integers sorted in ascending order and a target value,
+# find the first and last position of the target.
+# If the target is not found, return [-1, -1].
 
-⏰ Time Complexity: O(log n)
-📦 Space Complexity: O(1)
-"""
+# 📚 Pattern:
+# Binary Search (Modified Bound Search)
+# - First binary search to find the **left bound**
+# - Second binary search to find the **right bound**
+
+# ✅ Time Complexity: O(log n) - binary search twice
+# ✅ Space Complexity: O(1)
+
+# 🧠 Memory Hook:
+# binary search twice: once for first occurrence, once for last
+# if nums[mid] == target → store result, keep searching left/right
+# if is_first → move right = mid - 1
+# if not is_first → move left = mid + 1
 
 from typing import List
 
@@ -57,3 +65,8 @@ nums = [1], target = 1
 nums = [2, 2], target = 2
 # Output: [0, 1]
 """
+# 🔍 Example:
+# nums = [5,7,7,8,8,10], target = 8
+# First bound: index 3
+# Last bound: index 4
+# Output: [3, 4] ✅
