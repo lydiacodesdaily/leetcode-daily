@@ -1,60 +1,44 @@
-# 3. Longest Substring Without Repeating Characters
+# LeetCode 3 - Longest Substring Without Repeating Characters
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/
 
-"""
-🧠 Pattern: Sliding Window (Dynamic Size)
-🎯 Problem: Find the length of the longest substring without repeating characters.
+# ✅ Problem:
+# Given a string `s`, find the length of the longest substring without repeating characters.
 
-⏰ Time Complexity: O(n)
-📦 Space Complexity: O(min(n, k)) — where k is charset size (ASCII = O(1), Unicode = O(n))
+# 🧠 Memory Hook:
+# sliding window + set() → track unique chars
+# if duplicate: shrink from left until valid
+# update max length at each step
 
-Two optimal solutions below:
-- Option 1: Set-based sliding window (your approach)
-- Option 2: Dictionary-based window with fast skipping (LeetCode editorial approach)
-"""
+# 📚 Pattern: Sliding Window + Hash Set
 
-from typing import Set
+# ✅ Time Complexity: O(n) — each character is visited at most twice
+# ✅ Space Complexity: O(min(n, a)) — at most O(n) where n is length of `s`, a is alphabet size
 
-# ✅ Option 1: Set-based Sliding Window (Your Version)
+# 📌 Common Gotchas:
+# - Use set to check for duplicates
+# - Don’t forget to shrink the window on duplicate
+# - Don’t mix up characters and indices in hashmap version
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        char_set = set()
         left = 0
-        seen: Set[str] = set()
         max_len = 0
 
         for right in range(len(s)):
-            while s[right] in seen:
-                seen.remove(s[left])
+            while s[right] in char_set:
+                # shrink from the left
+                char_set.remove(s[left])
                 left += 1
-            seen.add(s[right])
+
+            char_set.add(s[right])
             max_len = max(max_len, right - left + 1)
 
         return max_len
 
+# 🔁 Example:
+# Input: s = "abcabcbb"
+# Window: [a,b,c] → [b,c,a] → [c,a,b] → [a,b,c] → max_len = 3
 
-# ✅ Option 2: Dictionary-based Sliding Window (Editorial / Fast Skipping)
-class SolutionFast:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        char_index = {}
-        start = 0
-        max_length = 0
-
-        for end, char in enumerate(s):
-            if char in char_index and char_index[char] >= start:
-                start = char_index[char] + 1
-            max_length = max(max_length, end - start + 1)
-            char_index[char] = end
-
-        return max_length
-
-
-"""
-🧪 Example Test Cases:
-
-s = "abcabcbb"     # Output: 3 ("abc")
-s = "bbbbb"        # Output: 1 ("b")
-s = "pwwkew"       # Output: 3 ("wke")
-s = ""             # Output: 0
-s = "au"           # Output: 2
-s = "dvdf"         # Output: 3 ("vdf")
-"""
+# Alternate version using Hash Map (if you need index tracking)
+# Faster for interviews if asked to return the substring as well
