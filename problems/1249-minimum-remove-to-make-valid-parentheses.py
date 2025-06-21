@@ -2,73 +2,67 @@
 # https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
 
 # ✅ Problem:
-# Given a string s of '(', ')' and lowercase English characters,
-# remove the minimum number of parentheses so that the resulting string is valid.
-# A string is valid if parentheses are balanced and well-ordered.
+# Given a string s of '(' , ')' and lowercase letters,
+# remove the minimum number of parentheses to make the string valid.
+# Return the resulting string.
 
-# 🔍 Key Insight:
-# Do two passes:
-# 1. First pass (left to right) to remove extra ')'
-# 2. Second pass (right to left) to remove extra '('
+# 📚 Pattern:
+# Stack + Greedy Cleanup (Mark-and-Skip Strategy)
 
-# 🔁 Key Observations:
-# - When scanning left to right:
-#   • Keep track of open parentheses.
-#   • Only allow ')' when open > 0.
-# - When scanning right to left:
-#   • Keep track of close parentheses.
-#   • Only allow '(' when close > 0.
+# 🔍 Core Idea:
+# Use a stack to track unmatched '(' indices.
+# In first pass, mark all invalid ')' and unmatched '('.
+# In second pass, skip the marked characters to rebuild the valid string.
 
-# ✅ Time Complexity: O(n)
-# ✅ Space Complexity: O(n) to store the result string
+# 🧠 Memory Hook:
+# 1st pass: push index of '(' to stack  
+# if ')' → pop if stack not empty else mark for removal  
+# add unmatched '(' indices to remove  
+# 2nd pass: rebuild string, skip marked indices
+
+# ✅ Time Complexity: O(n) - one pass to mark, one pass to build
+# ✅ Space Complexity: O(n) - for stack and set of indices to remove
 
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        # First pass: Remove invalid ')' left > right
-        result = []
-        open_count = 0
-        for char in s:
+        stack = []          # Track indices of unmatched '('
+        remove = set()      # Indices to remove
+
+        # First pass: mark indices to remove
+        for i, char in enumerate(s):
             if char == '(':
-                open_count += 1
-                result.append(char)
+                stack.append(i)
             elif char == ')':
-                if open_count > 0:
-                    open_count -= 1
-                    result.append(char)
-                # else: skip this invalid ')'
-            else:
+                if stack:
+                    stack.pop()  # matched
+                else:
+                    remove.add(i)  # unmatched ')'
+
+        # Add unmatched '(' indices
+        remove.update(stack)
+
+        # Second pass: rebuild result skipping invalid indices
+        result = []
+        for i, char in enumerate(s):
+            if i not in remove:
                 result.append(char)
 
-        # Second pass: Remove unmatched '(' from right to left
-        final = []
-        close_count = 0
-        for char in reversed(result):
-            if char == ')':
-                close_count += 1
-                final.append(char)
-            elif char == '(':
-                if close_count > 0:
-                    close_count -= 1
-                    final.append(char)
-                # else: skip this invalid '('
-            else:
-                final.append(char)
-
-        # Reverse to restore original order
-        return ''.join(reversed(final))
+        return ''.join(result)
 
 # 🔄 Dry Run:
-# Input: "a)b(c)d"
-# Pass 1 result: ['a', 'b', '(', 'c', ')', 'd'] → removed first ')'
-# Pass 2 reversed: ['d', ')', 'c', '(', 'b', 'a'] → no extra '('
-# Final output: "ab(c)d"
+# Input: s = "a)b(c)d"
+# Pass 1: 
+#   i=0, 'a' → skip
+#   i=1, ')' → no matching '(' → mark 1
+#   i=2, 'b'
+#   i=3, '(' → stack = [3]
+#   i=4, 'c'
+#   i=5, ')' → match with '(', pop stack
+#   i=6, 'd'
+# Remove = {1}, stack empty
+# Final result = "ab(c)d"
 
-# 🗋 Pattern: Stack Simulation / Two-Pass Greedy
-# 🔌 Alternative: Could be solved with a real stack and index tracking, but two-pass is cleaner
-
-# 📌 Common Gotchas:
-# - Not reversing the second pass
-# - Off-by-one errors in parentheses counting
-# - Forgetting to append non-parenthesis characters
-
-# 📂 Suitable for: Easy-Medium level interview, often used to test parsing, balancing, and greedy passes
+# Another example:
+# Input: "lee(t(c)o)de)"
+# Output: "lee(t(c)o)de"
+# Remove only the unmatched ')' at the end
