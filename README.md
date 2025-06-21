@@ -1,8 +1,10 @@
 # 🧠 Lydia's LeetCode Daily Log (2025– )
 
-Hi! I’m Lydia — a senior software engineer building deeper mastery in algorithms, system design, and technical interviewing.
+Hi! I’m Lydia — an ex–Senior Software Engineer currently focused on deepening my mastery of algorithms, system design, and clean code through daily technical interview prep.
 
-This repo is a **daily log of my LeetCode + technical interview preparation journey**, with joining AI-forward organizations like OpenAI - and creating a more inclusive tech world for neurodivergent developers like myself.
+This repository is a **daily log of my LeetCode journey**, as I prepare for software engineering roles at the intersection of **AI, public sector technology, and inclusive engineering teams**.
+
+My long-term mission is to contribute to AI-forward organizations like OpenAI and help build a more inclusive tech world — especially for **neurodivergent developers** like myself.
 
 ---
 
@@ -20,12 +22,6 @@ Deep dives into specific LeetCode problems. Each file includes:
 - Pattern identification
 - Key mistakes and gotchas
 - Code with comments and dry runs
-
-### `patterns/`
-My personalized notes and templates for common coding interview patterns (e.g. sliding window, binary search, tree traversal). Meant to be ADHD-friendly and easy to review.
-
-### `weekly-summaries/` 
-High-level reflection on what worked, what didn’t, and goals for the upcoming week.
 
 ---
 
