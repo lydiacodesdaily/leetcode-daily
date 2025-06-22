@@ -2,23 +2,23 @@
 # https://leetcode.com/problems/shortest-path-in-binary-matrix/
 
 # ✅ Problem:
-# Find the shortest path from the top-left to bottom-right in a binary matrix.
-# You can move in 8 directions. Cells with 1 are blocked, 0 are walkable.
-# Return the number of steps in the shortest path, or -1 if not possible.
+# Given an n x n binary matrix `grid`, return the length of the shortest clear path
+# from top-left to bottom-right, moving in 8 directions. Return -1 if no such path exists.
 
-# 🔍 Key Insight:
-# This is a classic grid shortest path problem → use **Breadth-First Search (BFS)**.
-# BFS ensures the shortest path is found by exploring level by level.
+# 🔍 Core Idea:
+# Use BFS to explore the grid starting from (0,0).
+# For each move, try all 8 directions. The first time we reach (n-1, n-1), return path length.
 
-# ✅ Time Complexity: O(n²) — worst case visits all cells once
-# ✅ Space Complexity: O(n²) — for visited matrix and queue
+# 🧠 Memory Hook:
+# BFS grid traversal → 8 directions  
+# queue = (r, c, path_len)  
+# mark visited before enqueue  
+# return length on reaching (n-1, n-1)
 
-# 📌 Common Gotchas:
-# - Check if the starting or ending cell is blocked
-# - Use 8-directional movement (diagonals included)
-# - Mark cells as visited immediately after enqueue to avoid revisits
+# 📚 Pattern: BFS on Grid
 
-# 📚 Pattern: BFS in 2D Grid
+# ✅ Time Complexity: O(n²) – worst case we visit all cells
+# ✅ Space Complexity: O(n²) – visited matrix + queue
 
 from typing import List
 from collections import deque
@@ -26,30 +26,40 @@ from collections import deque
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
         n = len(grid)
-        
-        # early exit if start or end is blocked
-        if grid[0][0] != 0 or grid[n-1][n-1] != 0:
+
+        # 🔒 Early exit: if start or end is blocked
+        if grid[0][0] != 0 or grid[n - 1][n - 1] != 0:
             return -1
 
+        # ✅ Step 1: Define 8 directions (including diagonals)
         directions = [(-1, -1), (-1, 0), (-1, 1),
                       (0, -1),          (0, 1),
                       (1, -1),  (1, 0), (1, 1)]
 
-        queue = deque([(0, 0, 1)])  # (row, col, path_length)
+        # ✅ Step 2: BFS setup → queue holds (row, col, path_length)
+        queue = deque([(0, 0, 1)])  # starting from top-left with length 1
+
+        # ✅ Step 3: Track visited to avoid cycles
         visited = [[False] * n for _ in range(n)]
         visited[0][0] = True
 
+        # ✅ Step 4: Standard BFS traversal
         while queue:
             r, c, length = queue.popleft()
+
+            # 🏁 Reached bottom-right corner
             if r == n - 1 and c == n - 1:
                 return length
 
+            # 🧭 Try all 8 directions
             for dr, dc in directions:
                 nr, nc = r + dr, c + dc
+                # ✅ Within bounds, not visited, and cell is open (0)
                 if 0 <= nr < n and 0 <= nc < n and not visited[nr][nc] and grid[nr][nc] == 0:
                     visited[nr][nc] = True
                     queue.append((nr, nc, length + 1))
 
+        # ❌ No valid path
         return -1
 
 # 🔁 Dry Run Example:
