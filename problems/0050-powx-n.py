@@ -2,8 +2,66 @@
 # https://leetcode.com/problems/powx-n/
 
 # ✅ Problem:
-# Implement pow(x, n), which calculates x raised to the power n (i.e., x^n).
+# Implement pow(x, n) which calculates x raised to the power n (i.e., x^n).
+# Constraints:
+# - n can be negative
+# - You must achieve O(log n) time complexity.
 
+# 📚 Pattern:
+# Binary Exponentiation (Iterative)
+
+# 🔍 Core Idea:
+# - Use bitwise operations to exponentiate in O(log n)
+# - At each bit: if bit is 1 → multiply result
+# - Square x for each shift
+# - Handle negative powers with reciprocal
+
+# 🧠 Memory Hook:
+# power = abs(n)
+# while power:
+#   if bit is 1 → multiply result
+#   square x
+#   shift right
+# return 1 / result if n < 0
+
+# ✅ Time Complexity: O(log n)
+# ✅ Space Complexity: O(1)
+
+# 📌 Common Gotchas:
+# - x^0 = 1.0 even if x == 0
+# - x^negative → return 1 / pow(x, -n)
+# - Watch integer overflow in other languages
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        # 🧯 Handle base cases
+        if x == 0:
+            return 0
+        if n == 0:
+            return 1
+        
+        result = 1
+        power = abs(n)
+        
+        # 🚀 Binary exponentiation
+        while power:
+            if power & 1:
+                result *= x
+            x *= x
+            power >>= 1
+        
+        # ↩️ Handle negative exponents
+        return result if n >= 0 else 1 / result
+
+# 🔄 Dry Run:
+# x = 2.0, n = 10
+# binary: 1010
+# result *= x^2 * x^8 = 1024
+
+# x = 2.0, n = -2
+# power = 2, result = 4, return 1 / 4 = 0.25
+
+# =========================== VERSION 2 =============================
 # 🔍 Key Insight:
 # Instead of multiplying x by itself n times, break the exponent n into binary bits and repeatedly square the base.
 # This is known as **binary exponentiation**.
@@ -54,3 +112,11 @@ class Solution:
 
 # 📚 Pattern: Math / Exponentiation by Squaring
 # This approach reduces time complexity from O(n) → O(log n)
+
+"""
+Bitwise 
+power & 1
+This returns:
+	•	1 → if the last bit of power is 1 (i.e., power is odd).
+	•	0 → if the last bit of power is 0 (i.e., power is even).
+"""
