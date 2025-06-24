@@ -8,6 +8,10 @@
 # 📚 Pattern:
 # Sliding Window (Fixed Size)
 
+# 🧠 Core Idea:
+# Use a queue to track the last `size` elements and a running sum to calculate the average.
+# When the queue exceeds the size limit, remove the oldest value and update the sum.
+
 # 🧠 Memory Hook:
 # use deque to maintain last `size` elements  
 # keep running sum → O(1) average calculation  

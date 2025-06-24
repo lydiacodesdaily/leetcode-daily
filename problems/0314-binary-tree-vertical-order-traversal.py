@@ -12,6 +12,12 @@
 # - Use a dictionary: col → list of values
 # Track `min_col` and `max_col` to extract ordered result.
 
+# 🧠 Memory Hook:
+# use BFS with (node, column) → preserve top-down order  
+# track min_col, max_col → to build result from left to right  
+# use hashmap[col] → list of values in that vertical  
+# final result: [hashmap[c] for c in range(min_col, max_col + 1)]
+
 # ✅ Time Complexity: O(n)
 # ✅ Space Complexity: O(n)
 # n = number of nodes

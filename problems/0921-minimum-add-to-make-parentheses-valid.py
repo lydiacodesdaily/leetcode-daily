@@ -6,6 +6,21 @@
 
 # 📚 Pattern: Stack (or Greedy Counter)
 
+# 🔍 Core Idea:
+# Use a counter to track unmatched opening '('
+# - When we see '(', increment open count
+# - When we see ')':
+#     - If there's an unmatched '(', match it → decrement open
+#     - Otherwise, it's an unmatched ')', count it as insertion
+# Final answer = unmatched open '(' + unmatched close ')'
+
+# 🧠 Memory Hook:
+# open = unmatched '('
+# if c == ')':
+#     if open > 0 → open -= 1
+#     else → insertions += 1
+# return open + insertions
+
 # 🔍 Key Insight:
 # - Track unmatched left and right parentheses using two counters:
 #   - `open`: how many unmatched '(' we’ve seen

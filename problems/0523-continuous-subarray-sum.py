@@ -14,9 +14,9 @@
 # Track prefix % k in a hashmap with earliest index seen.
 
 # 🧠 Memory Hook:
-# prefix sum mod k
-# if same mod seen at earlier index i → sum[i+1 to j] % k == 0
-# must be len ≥ 2 → check j - i ≥ 2
+# keep (prefix sum % k → earliest index) in map
+# if same mod seen before → gap between indices ≥ 2 → ✅
+# init: mod 0 at index -1 (handle full prefix % k == 0)
 
 # ✅ Time Complexity: O(n)
 # ✅ Space Complexity: O(k) at most — only tracking prefix % k in map

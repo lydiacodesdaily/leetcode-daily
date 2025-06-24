@@ -14,6 +14,12 @@
 # - Store index:value for non-zero entries
 # - Traverse the smaller dict and check for overlap in the other
 
+# 🔍 Key Insight:
+# sparse vector = most elements are 0s
+# instead of storing full arrs, we store: v1_sparse = {2: 3, 4: 4}  # index → value
+# dotproduct:  only multiply values where both vectors are non-zero at the same index → much faster and space-efficient.
+# v1[2] * v2[2] + v1[4] * v2[4] = 3*0 + 4*5 = 0 + 20 = 20
+
 # 🧠 Memory Hook:
 # sparse vec → dict of index:val
 # dot = sum(v1[i] * v2[i]) only when i in both
