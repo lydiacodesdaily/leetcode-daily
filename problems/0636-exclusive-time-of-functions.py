@@ -37,25 +37,24 @@ from typing import List
 
 class Solution:
     def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
-        res = [0] * n
-        stack = []
-        prev_time = 0
+        res = [0] * n  # Result array to store exclusive time per function
+        stack = []     # Stack to keep track of active function ids
+        prev_time = 0  # Track previous timestamp
 
         for log in logs:
-            fn_id_str, typ, time_str = log.split(":")
-            fn_id = int(fn_id_str)
-            curr_time = int(time_str)
+            fn_id, typ, time = log.split(':')
+            fn_id, time = int(fn_id), int(time)
 
-            if typ == "start":
+            if typ == 'start':
                 if stack:
                     # Add elapsed time to the function on top of the stack
-                    res[stack[-1]] += curr_time - prev_time
+                    res[stack[-1]] += time - prev_time
                 stack.append(fn_id)
-                prev_time = curr_time
+                prev_time = time  # Update previous time to current time
             else:
-                # End of current function
-                res[stack.pop()] += curr_time - prev_time + 1
-                prev_time = curr_time + 1
+                # Function ends → pop from stack
+                res[stack.pop()] += time - prev_time + 1  # +1 because end is inclusive
+                prev_time = time + 1  # Next time starts after this
 
         return res
 
