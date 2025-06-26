@@ -26,9 +26,11 @@
 # 🧠 Memory Hook:
 # strip whitespace
 # scan char-by-char
-# flags: seen_digit, seen_dot, seen_exp
-# '+'/'-' only at start or after 'e'
-# must see digit after 'e'
+# ⚙️ Flags: seen_digit, seen_dot, seen_exp
+# ➕ Sign only at start or after 'e'
+# ⚪ Dot: only once, never after 'e'
+# 🔡 'e': only once, must follow digit, must see digit after
+# ❌ Anything else → invalid
 
 # ✅ Time Complexity: O(n) — scan the entire string once
 # ✅ Space Complexity: O(1)
