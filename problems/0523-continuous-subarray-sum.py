@@ -2,49 +2,69 @@
 # https://leetcode.com/problems/continuous-subarray-sum/
 
 # ✅ Problem:
-# Given an integer array nums and an integer k, return true if nums has a 
-# continuous subarray of at least two elements whose sum is a multiple of k.
-# i.e., sum[i:j+1] % k == 0 for some i < j.
+# Given an integer array nums and an integer k, return true if nums has
+# a continuous subarray of size at least two whose elements sum up to a multiple of k.
 
-# 📚 Pattern: Prefix Sum + HashMap (modulo trick)
-# 🔧 Subtype: Match prefix mod seen before → same mod means diff is divisible by k
+# 📚 Pattern:
+# Prefix Sum + Hash Map
+# - Track prefix_sum % k remainders
+# - If the same remainder appears again, the subarray sum between them is divisible by k
 
-# 🔍 Key Insight:
-# If sum(i...j) % k == 0 → then prefix[j] % k == prefix[i-1] % k
-# Track prefix % k in a hashmap with earliest index seen.
+# 🔍 Core Idea:
+# Use prefix sum modulo k to track remainders.
+# If two prefix sums have the same remainder → the subarray sum between them is divisible by k.
+# Store the earliest index for each remainder.
+# When the same remainder appears again, check if the subarray length is at least 2.
 
-# 🧠 Memory Hook:
-# keep (prefix sum % k → earliest index) in map
-# if same mod seen before → gap between indices ≥ 2 → ✅
-# init: mod 0 at index -1 (handle full prefix % k == 0)
+# 🧐 Memory Hook:
+# prefix_sum % k → store earliest index
+# same remainder found again → subarray sum divisible by k
+# subarray length = j - i ≥ 2 → check distance before return
+
+# Core Knowledge:
+# - prefix_sum[i] is the sum from index 0 to index i.
+# - prefix_sum[j] is the sum from index 0 to index j (j > i).
+# => Subarray sum from index i+1 to j = prefix_sum[j] - prefix_sum[i]
+# => (prefix_sum[j] - prefix_sum[i]) % k == 0  →  means the subarray sum is divisible by k
+# => prefix_sum[j] % k == prefix_sum[i] % k
+# If two prefix sums have the same remainder modulo k, the subarray between them is divisible by k.
 
 # ✅ Time Complexity: O(n)
-# ✅ Space Complexity: O(k) at most — only tracking prefix % k in map
+# ✅ Space Complexity: O(min(n, k)) → because remainder map size can be at most k different values
+
+# 📌 Common Gotchas:
+# - Must check subarray length ≥ 2 → j - i ≥ 2
+# - Handle k = 0 case separately → need exact zero subarray sum
 
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
-        prefix = 0
-        seen = {0: -1}  # prefix mod → earliest index
+        # Key = prefix_sum % k, Value = earliest index where this remainder appeared
+        remainder_index = {0: -1}  # Initialize with remainder 0 at index -1 for edge cases
+        prefix_sum = 0
 
+        # 🗽 Iterate through the array
         for i, num in enumerate(nums):
-            prefix += num
-            mod = prefix % k if k != 0 else prefix  # handle k=0 edge case
+            prefix_sum += num
 
-            if mod in seen:
-                if i - seen[mod] >= 2:
-                    return True
+            # 🛢️ If k != 0, take modulo to get remainder
+            if k != 0:
+                remainder = prefix_sum % k
             else:
-                seen[mod] = i  # only store the earliest index
+                remainder = prefix_sum  # Special handling when k == 0 → looking for exact sum == 0
 
-        return False
+            # 🌟 Check if this remainder was seen before
+            if remainder in remainder_index:
+                # Check if subarray length is at least 2
+                if i - remainder_index[remainder] >= 2:
+                    return True  # Found a valid subarray
+            else:
+                # 📂 Store the earliest index where this remainder was seen
+                remainder_index[remainder] = i
+
+        return False  # No valid subarray found
 
 # 🔄 Dry Run:
 # Input: nums = [23, 2, 4, 6, 7], k = 6
-# prefix[0] = 23 → 23 % 6 = 5 → store {5: 0}
-# prefix[1] = 25 → 25 % 6 = 1 → store {5:0, 1:1}
-# prefix[2] = 29 → 29 % 6 = 5 → 5 seen at index 0 → i - 0 = 2 ✅
-
-# 📌 Gotchas:
-# - Must ensure subarray length ≥ 2 → check i - seen[mod] >= 2
-# - Don't overwrite mod's earliest index
-# - k can be 0 → special case, use raw prefix
+# prefix sums: [23, 25, 29, 35, 42]
+# remainders: [5, 1, 5, 5, 0]
+# At index 2 → remainder 5 seen before at index 0 → subarray length = 2 → return True ✅
