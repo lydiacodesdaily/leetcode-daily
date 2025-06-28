@@ -31,16 +31,16 @@ class Solution:
 
         # 🧱 Step 1: Initialize DP grid
         # dp[i][j] = LPS (Longest Palindromic Subsequence) length in s[i..j]
-        dp = [[0] * n for _ in range(n)]
+        dp = [[0] * n for _ in range(n)] # dp[i][j] = min deletions to make s[i..j] a palindrome
 
         # 🧱 Step 2: Base case — each character is a palindrome of length 1
         for i in range(n):
-            dp[i][i] = 1
+            dp[i][i] = 1 # If i == j, it’s a 1-letter substring → it’s already a palindrome
 
         # 🧱 Step 3: Build bottom-up for substrings of length 2 to n
         for length in range(2, n + 1):            # length of the substring
-            for i in range(n - length + 1):       # start index
-                j = i + length - 1                # end index
+            for i in range(n - length + 1):       # start index of substring
+                j = i + length - 1                # end index of substring
 
                 if s[i] == s[j]:
                     dp[i][j] = 2 + dp[i + 1][j - 1] if length > 2 else 2

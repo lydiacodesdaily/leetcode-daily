@@ -19,7 +19,7 @@
 # kth largest = top of heap
 
 # ✅ Time Complexity:
-# O(n log k) — inserting into heap of size k
+# O(n log k) — inserting into heap of size k - O(n) iterations × O(log k) per heap op = O(n log k)
 # ✅ Space Complexity:
 # O(k) — size of heap
 

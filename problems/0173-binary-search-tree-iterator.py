@@ -49,14 +49,13 @@ class BSTIterator:
     # 🔁 Return the next smallest number
     def next(self) -> int:
         # Pop the top node
-        curr = self.stack.pop()
-        result = curr.val
+        top = self.stack.pop()
 
         # After visiting this node, visit the right subtree
-        if curr.right:
-            self._leftmost_inorder(curr.right)
+        if top.right:
+            self._leftmost_inorder(top.right)
 
-        return result
+        return top.val
 
     # ✅ Check if there is a next smallest number
     def hasNext(self) -> bool:
