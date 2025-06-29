@@ -15,6 +15,18 @@
 # - Efficient way to simulate count updates over a fixed interval (0 to 1000)
 # - Works great for capacity tracking and interval overlaps
 
+# 🔍 Core Idea:
+# Use a difference array to track passenger changes at each stop.
+# Prefix sum while driving the bus route to track the real-time passenger load.
+
+# 🧠 Memory Hook:
+# 🚌 Bus Ride Story:
+# + Passengers get on → mark positive at that stop
+# - Passengers get off → mark negative at that stop
+# 🚗 Drive the bus (prefix sum) → track total passengers at each stop
+# 🚨 If overloaded → return False
+# ✅ If safe → return True
+
 # 🧠 Memory Hook:
 # diff[start] += num, diff[end] -= num
 # simulate with prefix sum over locations
@@ -25,21 +37,27 @@
 
 class Solution:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
-        # 📦 Step 1: Initialize difference array
-        diff = [0] * 1001  # index = location, range is 0 to 1000
+        # 🚌 Imagine we have a passenger flow chart for each bus stop (index 0 ~ 1000)
+        stops = [0] * 1001  # Locations 0 ~ 1000 → each index is a bus stop
 
-        # 🚐 Step 2: Apply all trip deltas
-        for passengers, start, end in trips:
-            diff[start] += passengers    # passengers get in at 'start'
-            diff[end] -= passengers      # passengers get out before 'end'
+        for num_passengers, start, end in trips:
+            # 🛑 Passengers get ON the bus at 'start' stop → add to flow chart
+            stops[start] += num_passengers
 
-        # 🚦 Step 3: Simulate the timeline
-        curr_passengers = 0
-        for loc in range(1001):
-            curr_passengers += diff[loc]
-            if curr_passengers > capacity:
+            # 🛑 Passengers get OFF the bus at 'end' stop → subtract from flow chart
+            stops[end] -= num_passengers
+
+        # 🚗 Drive the bus from stop 0 to stop 1000
+        current_passengers = 0
+        for stop in range(1001):
+            # 🚌 Update the bus load as passengers get on/off
+            current_passengers += stops[stop]
+
+            # 🚨 If the bus gets too crowded → return False
+            if current_passengers > capacity:
                 return False
 
+        # ✅ If we finished the route safely → trip is valid
         return True
 
 # 🔄 Dry Run:
