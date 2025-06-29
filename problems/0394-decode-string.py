@@ -19,35 +19,43 @@
 
 class Solution:
     def decodeString(self, s: str) -> str:
-        stack = []        # 🧳 stack holds (prev_str, repeat_count)
-        curr_str = ""     # 🧱 current working string being built
-        curr_num = 0      # 🔢 repeat count accumulator
+        stack = []        # 🧳 Stack → suitcase storage room (each holds (prev_str, repeat_count))
+        curr_str = ""     # 📦 Current working space (what you're building now)
+        curr_num = 0      # 🔢 Label for how many times to repeat (repeat count)
 
         # 🚶 Step through each character
         for char in s:
             if char.isdigit():
-                # 🔢 Build multi-digit numbers (e.g., "12[ab]")
+                # 🔢 Labeling the suitcase → build multi-digit repeat count
                 curr_num = curr_num * 10 + int(char)
 
             elif char == '[':
-                # 🧳 Push current string and repeat count to stack
+                # 🧳 Packing → push (curr_str, curr_num) into storage (stack)
                 stack.append((curr_str, curr_num))
-                # 🧼 Reset for substring inside brackets
+
+                # 🧼 Start fresh → reset working space and label
                 curr_str = ""
                 curr_num = 0
 
             elif char == ']':
-                # 📤 Pop last state and apply repeat logic
+                # 📤 Unpacking → retrieve last suitcase from storage
                 prev_str, repeat = stack.pop()
-                # 🧱 Append repeated current block to previous
+
+                # 🔁 Unpack → repeat the current block and attach it to previous string
                 curr_str = prev_str + curr_str * repeat
 
             else:
-                # 🔤 Append character to current working string
+                # 🔤 Adding characters → keep building in your workspace
                 curr_str += char
 
+        # 🎁 Final string after all packing and unpacking is done
         return curr_str
 
+# 🗂️ Memory Hook:
+# digit → label suitcase
+# '[' → pack → push to stack → reset workspace
+# ']' → unpack → pop from stack → repeat and attach
+# char → build workspace
 
 # 🔄 Dry Run: Input → "3[a2[c]]"
 # Step-by-step:
