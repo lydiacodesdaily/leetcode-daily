@@ -26,20 +26,30 @@
 
 class Solution:
     def toGoatLatin(self, sentence: str) -> str:
-        vowels = {'a', 'e', 'i', 'o', 'u'}
+        # Define vowel set for fast lookup (both lowercase and uppercase)
+        vowels = set("aeiouAEIOU")
+
+        # Split sentence into words
         words = sentence.split()
         result = []
 
+        # Process each word with index
         for i, word in enumerate(words):
-            if word[0].lower() in vowels:
-                goat_word = word + 'ma'
+            if word[0] in vowels:
+                # Starts with vowel → just add 'ma'
+                goat_word = word + "ma"
             else:
-                goat_word = word[1:] + word[0] + 'ma'
+                # Starts with consonant → move first letter to end + 'ma'
+                goat_word = word[1:] + word[0] + "ma"
 
-            goat_word += 'a' * (i + 1)
+            # Add "a" repeated (i + 1) times
+            goat_word += "a" * (i + 1)
+
+            # Append transformed word
             result.append(goat_word)
 
-        return ' '.join(result)
+        # Join all words to form the final Goat Latin sentence
+        return " ".join(result)
 
 
 # 🔄 Example Dry Run:
