@@ -1,22 +1,25 @@
 # LeetCode 8 - String to Integer (atoi)
 # https://leetcode.com/problems/string-to-integer-atoi/
 
+
 # ✅ Problem:
-# Implement the `myAtoi(string s)` function, which converts a string to a 32-bit signed integer (like C/C++’s `atoi`).
-# The function discards leading whitespaces, handles optional '+'/'-' sign, parses digits until non-digit char, 
-# and clamps to [-2^31, 2^31 - 1] if overflow.
+# Implement the atoi function to convert a string to a 32-bit signed integer.
+# Follow these steps:
+# 1. Discard leading whitespaces.
+# 2. Check optional '+' or '-' sign.
+# 3. Read in digits until a non-digit is found.
+# 4. Clamp result to [-2^31, 2^31 - 1] if overflow occurs.
 
-# 📚 Pattern:
-# String Manipulation — Controlled Parsing
+# 📚 Pattern: String Parsing
 
-# 🧪 Subtype:
-# Character-by-character parsing, simulation of finite state logic
+# 🔍 Core Idea:
+# - Skip whitespaces
+# - Check optional sign
+# - Read continuous digits
+# - Handle overflow using bounds checking
 
 # 🧠 Memory Hook:
-# strip leading space
-# check +/- sign
-# parse digits only
-# clamp to [-2^31, 2^31-1] at end
+# skip spaces → check sign → read digits → clamp overflow
 
 # ✅ Time Complexity: O(n)
 # ✅ Space Complexity: O(1)
@@ -26,6 +29,9 @@
 # - No digits found → return 0
 # - Overflow handling
 # - Invalid characters after number → ignore
+
+# Notes to myself:
+# Follow the problem description
 
 class Solution:
     def myAtoi(self, s: str) -> int:

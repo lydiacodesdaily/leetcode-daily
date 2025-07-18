@@ -20,6 +20,8 @@
 # if days ≤ D → try smaller → move left
 
 # ✅ Time Complexity: O(n log(sum - max))
+# - binary search the capacity from max(weights) to sum(weights) → log(sum - max) steps
+# Each step runs a greedy check over all weights → O(n) time
 # ✅ Space Complexity: O(1)
 
 # 📌 Common Gotchas:
