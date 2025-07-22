@@ -5,6 +5,9 @@
 # Given a binary tree, find the **lowest common ancestor (LCA)** of two given nodes `p` and `q`.
 # The LCA is the lowest node in the tree that has both `p` and `q` as descendants.
 
+# Pattern: Binary Tree DFS (Postorder Traversal)
+# → Classic postorder decision-making: check left, right, and return up with conditions
+
 # 🔍 Key Insight:
 # Use **postorder DFS traversal**:
 # - If current node is None → return None
@@ -12,6 +15,12 @@
 # - Recursively search left and right
 # - If both sides return non-null → current node is the LCA
 # - If only one side returns non-null → propagate that up
+
+# Memory Hook:
+# postorder dfs: check left and right
+# if current == p or q → return self
+# if left and right both return non-null → current is LCA
+# bubble up non-null (if only one side found p or q)
 
 # ✅ Time Complexity: O(n)
 # ✅ Space Complexity: O(h) — recursion stack; h = height of the tree
@@ -69,3 +78,22 @@ class Solution:
 # - If root == p or q → return root
 # - If both left and right are non-null → return current root (this is the LCA)
 # - If only one is non-null → propagate that one upward
+
+"""
+Dry Run: LCA(5,4) -> expect 5
+dfs(3) -> dfs(5), dfs(1)
+    dfs(5) -> dfs(6), dfs(2)
+        dfs(6) -> return None
+        dfs(2) -> dfs(7), dfs(4)
+            dfs(7) -> return None
+            dfs(4) -> return 4 (== q)
+        -> dfs(2) returns 4
+    -> dfs(5) gets left=None, right=4 -> return 5 (==p)
+-> dfs(3) gets left=5, right=None -> returns 5
+
+Rule:
+- if root == p or q -> return root
+- dfs left, right 
+- if both non-null -> return root 
+- if one side non-null -> buble it up
+"""
