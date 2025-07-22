@@ -1,12 +1,32 @@
-from typing import Optional
+# LeetCode 543 - Diameter of Binary Tree
+# https://leetcode.com/problems/diameter-of-binary-tree/
 
-# LeetCode 543: Diameter of Binary Tree
-# ✨ Problem:
-# Given the root of a binary tree, return the length of the diameter of the tree.
-# The diameter is the number of **edges** on the longest path between any two nodes in the tree.
-#
-# ⏱ Time Complexity: O(n), where n is the number of nodes
-# 🔢 Space Complexity: O(h), where h is the height of the tree (due to recursion stack)
+# ✅ Problem:
+# Given a binary tree, return the length of the diameter (longest path between any two nodes).
+# The path may or may not pass through the root. Return the **number of edges**, not nodes.
+
+# 📚 Pattern:
+# DFS (Postorder) — Track diameter during height computation
+
+# 🔍 Core Idea:
+# For each node, the longest path through it = left height + right height.
+# So while computing height, track the maximum diameter seen so far.
+# diameter = maximum number of edges between two nodes in the tree
+# therefore, no need to add "1" to left + right
+
+# 🧠 Memory Hook:
+# postorder DFS
+# update diameter = max(left + right) 
+# return height = 1 + max(left, right)
+
+# ✅ Time Complexity: O(n) — visit every node once
+# ✅ Space Complexity: O(h) — recursive call stack (h = height)
+
+# 📌 Common Gotchas:
+# - Diameter counts **edges**, so don’t +1 when returning
+# - Must update global diameter inside DFS
+
+from typing import Optional
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
