@@ -12,6 +12,21 @@
 # ✅ Time Complexity: O(h) — where h is the height of the tree
 # ✅ Space Complexity: O(1) — no extra data structures
 
+# Option A: Set-Based Approach 
+# ⏱️ Time: O(h), 📦 Space: O(h)
+class Solution:
+    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
+        seen = set()
+        while p:
+            seen.add(p)
+            p = p.parent
+        while q:
+            if q in seen:
+                return q
+            q = q.parent
+        return None
+    
+# Option B: Two Pointers
 class Solution:
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
         a, b = p, q
