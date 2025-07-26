@@ -7,6 +7,59 @@
 # - n can be negative
 # - You must achieve O(log n) time complexity.
 
+# 🧩 Pattern:
+# Fast Exponentiation / Binary Exponentiation
+
+# 🔍 Key Insight:
+# You can break exponentiation into halves recursively:
+#   - xⁿ = (x²)^(n//2) if n is even
+#   - xⁿ = x * (x²)^(n//2) if n is odd
+# Use recursion to divide-and-conquer — cutting exponent in half at every step.
+
+# 🧠 Memory Hook:
+# - halve exponent each time → log n
+# - even → return half * half
+# - odd → return half * half * base
+# - if n < 0 → flip x and make n positive
+
+# ✅ Time Complexity: O(log n)
+# ✅ Space Complexity: O(log n) for recursion (can be O(1) with iteration)
+
+# 📌 Common Gotchas:
+# - Negative exponent → x^(-n) = 1 / x^n
+# - Be careful with large negative n (e.g., -2^31)
+# - Don’t use float power or math.pow
+# - Understand the recursive return logic
+
+# Recursive 
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        # 🔄 Handle negative exponent first
+        if n < 0:
+            x = 1 / x
+            n = -n
+
+        # ✅ Recursive fast power
+        def fast_pow(base: float, exp: int) -> float:
+            # Base case: any number ^ 0 = 1
+            if exp == 0:
+                return 1.0
+
+            # Recursively compute half power
+            half = fast_pow(base, exp // 2)
+
+            # 🔍 This is the core logic:
+            # If exponent is even:
+            #    xⁿ = (x^(n//2))² → return half * half
+            if exp % 2 == 0:
+                return half * half
+            else:
+                # If exponent is odd:
+                #    xⁿ = x * (x^(n//2))² → return half * half * base
+                return half * half * base
+
+        return fast_pow(x, n)
+
 # 📚 Pattern:
 # Binary Exponentiation (Iterative)
 
@@ -32,6 +85,7 @@
 # - x^negative → return 1 / pow(x, -n)
 # - Watch integer overflow in other languages
 
+# Iterative 
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         # 🧯 Handle base cases
