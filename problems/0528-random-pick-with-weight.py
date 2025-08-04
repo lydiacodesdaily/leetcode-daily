@@ -2,29 +2,27 @@
 # https://leetcode.com/problems/random-pick-with-weight/
 
 # ✅ Problem:
-# Given an array of positive integers `w`, where `w[i]` is the weight of index i,
-# implement a class `Solution` with the following methods:
-# - `__init__(w: List[int])` initializes the object
-# - `pickIndex()` returns a random index i with probability proportional to w[i]
-#
-# For example, w = [1, 3]
-# → Index 0 should be picked 25% of the time
-# → Index 1 should be picked 75% of the time
+# Given a list of positive integers `w`, where w[i] is the weight of index i,
+# implement a method pickIndex() that returns an index i with probability:
+#     w[i] / sum(w)
 
-# 📚 Pattern: Prefix Sum + Binary Search + Random Sampling
+# 📚 Pattern:
+# Prefix Sum + Binary Search
 
 # 🔍 Key Insight:
-# Convert weights into a **prefix sum array**:
-#   w = [1, 3] → prefix_sums = [1, 4]
-# Randomly pick a number between 1 and total weight (inclusive).
-# Use **binary search** (`bisect_left`) to find where this number fits.
-#
-# This maps uniform random numbers into weighted buckets efficiently.
+# Stretch each index into a proportional range based on weight.
+# Generate a random number in [1, total], then use binary search to locate which index it maps to.
+
+# 🧠 Memory Hook:
+# "the higher the weight, the higher the chance it gets picked"
+# → prefix sum turns weights into segments
+# → random.randint chooses a point in that range
+# → bisect_left finds which segment it falls into
 
 # ✅ Time Complexity:
-# - __init__: O(n)
-# - pickIndex: O(log n) using binary search
-# ✅ Space Complexity: O(n) — for prefix sums
+# - Constructor: O(n)
+# - pickIndex(): O(log n)
+# ✅ Space Complexity: O(n)
 
 import random
 import bisect
@@ -32,43 +30,26 @@ from typing import List
 
 class Solution:
     def __init__(self, w: List[int]):
-        self.prefix_sums = []
+        self.prefix = [] #  weights into segments
         total = 0
         for weight in w:
             total += weight
-            self.prefix_sums.append(total)
-        self.total_sum = total
+            self.prefix.append(total)
+        self.total = total  # total sum of weights
 
     def pickIndex(self) -> int:
-        target = random.randint(1, self.total_sum) # random num picked btw 1 and total sum
-        return bisect.bisect_left(self.prefix_sums, target)
+        target = random.randint(1, self.total)  # chooses a point in that range
+        # Find the first index where prefix[i] >= target
+        return bisect.bisect_left(self.prefix, target) #  bisect_left finds which segment it falls into
 
-# 🔁 Dry Run Example:
-# w = [1, 3, 2]
-# → prefix_sums = [1, 4, 6]
-# Random number is picked in [1, 6]
-# Mapped as:
-#   1 → index 0
-#   2, 3, 4 → index 1
-#   5, 6 → index 2
+# 🔄 Dry Run:
+# Input: w = [1, 3, 2]
+# prefix = [1, 4, 6]
+# total = 6
+# Random target = 5 → falls into index 2 (because 4 < 5 <= 6)
+# Random target = 2 → falls into index 1 (because 1 < 2 <= 4)
 
-# Manual Binary Search | bisect.bisect_left(self.prefix_sums, target)
-# def binary_search(prefix_sums, target):
-#    left, right = 0, len(prefix_sums) - 1
-#    while left < right:
-#        mid = (left + right) // 2
-#        if prefix_sums[mid] < target:
-#            left = mid + 1
-#        else:
-#            right = mid
-#    return left
-
-# 📌 Common Gotchas:
-# - Don't use `random.randint(0, total)` — it must be 1-based to match prefix sum indexing.
-# - Must use `bisect.bisect_left`, not right
-# - Always build the prefix sum during `__init__` for efficiency
-
-# 🧠 Concept Reinforced:
-# - Prefix sum to map values to cumulative ranges
-# - Binary search to locate which range a random number falls into
-# - Efficient O(log n) weighted sampling
+# So:
+# index 0 = 1/6 chance
+# index 1 = 3/6 chance
+# index 2 = 2/6 chance
