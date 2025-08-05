@@ -82,3 +82,30 @@ class Solution:
 # - Accidentally zeroing marker cells before reading them
 #
 # This is a classic **in-place optimization** technique. Make sure to explain clearly in interviews!
+
+
+
+# 🧼 Alternative (Clean but uses O(m+n) space):
+
+class SolutionExtraSpace:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        rows, cols = len(matrix), len(matrix[0])
+        zero_rows = set()
+        zero_cols = set()
+
+        # 1️⃣ First pass: record which rows and cols should be zeroed
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j] == 0:
+                    zero_rows.add(i)
+                    zero_cols.add(j)
+
+        # 2️⃣ Second pass: zero them out
+        for i in range(rows):
+            for j in range(cols):
+                if i in zero_rows or j in zero_cols:
+                    matrix[i][j] = 0
+
+# ✅ Time: O(m * n)
+# ✅ Space: O(m + n)
+# 🔍 Tradeoff: Cleaner, but not in-place
