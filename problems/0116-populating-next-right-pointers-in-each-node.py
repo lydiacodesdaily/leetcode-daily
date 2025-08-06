@@ -2,8 +2,63 @@
 # https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
 
 # ✅ Problem:
-# Given a perfect binary tree, connect each node’s next pointer to its right neighbor.
-# If there is no right neighbor, set `.next = None`.
+# Given a perfect binary tree, populate each node's `next` pointer to point to its
+# right neighbor on the same level. If no neighbor exists, set `next = None`.
+
+# 📚 Pattern:
+# Tree Traversal with Constant Space using Next Pointers
+
+# 🔍 Key Insight:
+# - Use the perfect binary tree structure to connect children top-down.
+# - Connect:
+#     1. left → right (within the same parent)
+#     2. right → next.left (across neighboring parents)
+# - Traverse level by level using already established `next` pointers.
+
+# 🧠 Memory Hook:
+# node.left.next = node.right
+# node.right.next = node.next.left  # only if node.next exists
+# No queue needed — O(1) space
+
+# ✅ Time Complexity: O(n)
+# ✅ Space Complexity: O(1) extra space (excluding recursion stack)
+
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None,
+                 right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+
+        # 🧭 Start at the leftmost node of the current level
+        leftmost = root
+
+        # Keep going until we reach the leaf level
+        while leftmost.left:
+            head = leftmost
+            while head:
+                # 1️⃣ Connect left → right (same parent)
+                head.left.next = head.right
+
+                # 2️⃣ Connect right → next.left (across neighboring parents)
+                if head.next:
+                    head.right.next = head.next.left
+
+                # 🏃 Move to next node on the current level
+                head = head.next
+
+            # ⬇ Move to the leftmost node of the next level
+            leftmost = leftmost.left
+
+        return root
+
+# Version II: 
 
 # 📚 Pattern: Binary Tree BFS - Level Order Traversal
 
