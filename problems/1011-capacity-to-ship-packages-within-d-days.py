@@ -33,35 +33,33 @@ from typing import List
 
 class Solution:
     def shipWithinDays(self, weights: List[int], days: int) -> int:
+        # kept thinking of roundrobin, but using binary search to find the capacity makes sense 
+        def canShip(capacity):
+            days_used = 1
+            curr_weight = 0
+
+            for w in weights:
+                if curr_weight + w > capacity: 
+                    days_used += 1  # Start a new day
+                    curr_weight = 0 
+                curr_weight += w
+            return days_used <= days
+
         # 📏 Set initial binary search bounds
-        left = max(weights)       # Minimum valid capacity
-        right = sum(weights)      # Maximum capacity (ship all in 1 day)
+        left = max(weights)
+        right = sum(weights)
 
         # 🔀 Binary search for minimum valid capacity
-        while left < right:
+        while left < right: 
             mid = (left + right) // 2
-
             # 🔄 Can we ship with capacity = mid?
-            if self.canShip(weights, days, mid):
-                right = mid  # Try smaller capacity
+            if canShip(mid):
+                # can ship -> try smaller capacity
+                right = mid 
             else:
-                left = mid + 1  # Try larger capacity
-
-        return left  # 🏆 Smallest capacity that works
-
-    def canShip(self, weights: List[int], days: int, capacity: int) -> bool:
-        days_used = 1
-        current_weight = 0
-
-        for weight in weights:
-            if current_weight + weight > capacity:
-                # Start a new day
-                days_used += 1
-                current_weight = 0
-
-            current_weight += weight
-
-        return days_used <= days
+                # can't ship -> try bigger
+                left = mid + 1 # Try larger capacity
+        return left # 🏆 Smallest capacity that works
 
 
 # 🔄 Dry Run Example:
