@@ -45,7 +45,17 @@ class Solution:
         # left is the first index where missing(left) >= k
         # We need to go back one step and compute how many more to go
         return nums[left - 1] + (k - missing(left - 1))
-
+        """
+        🧠 What’s happening here?
+        1.	After binary search:
+            •	left points to the first index where missing(left) ≥ k
+            •	So left - 1 is the **last index where missing < k`
+        2.	We know:
+            •	We’ve already “missed” missing(left - 1) elements up to that point
+            •	So we still need to count (k - missing(left - 1)) more elements
+        3.	Therefore:
+            •	The answer is: nums[left - 1] + (k - missing(left - 1))
+        """
 # 🔄 Dry Run:
 # Input: nums = [4,7,9,10], k = 3
 # missing(0) = 0
