@@ -18,6 +18,7 @@
 # - base: start == n → append path[:]
 #
 # ⏱️ Time: Exponential in worst case (all palindromes), typical backtracking
+# O(n*2^n) there are 2^n possible partitions of the string and for each substring we spend O(n) to check if it's a palindrome.
 # 💾 Space: O(n) recursion depth for path
 
 class Solution:
