@@ -26,7 +26,7 @@ class Solution:
             q = q.parent
         return None
     
-# Option B: Two Pointers
+# Option B: Two Pointers ** preferred
 class Solution:
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
         a, b = p, q

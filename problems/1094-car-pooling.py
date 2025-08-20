@@ -37,27 +37,19 @@
 
 class Solution:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
-        # 🚌 Imagine we have a passenger flow chart for each bus stop (index 0 ~ 1000)
-        stops = [0] * 1001  # Locations 0 ~ 1000 → each index is a bus stop
+        # Road range constraint: 1 ≤ fromi < toi ≤ 1000
+        road = [0] * 1000
 
-        for num_passengers, start, end in trips:
-            # 🛑 Passengers get ON the bus at 'start' stop → add to flow chart
-            stops[start] += num_passengers
+        for passengers, start, end in trips:
+            road[start] += passengers
+            road[end] -= passengers
 
-            # 🛑 Passengers get OFF the bus at 'end' stop → subtract from flow chart
-            stops[end] -= num_passengers
-
-        # 🚗 Drive the bus from stop 0 to stop 1000
-        current_passengers = 0
-        for stop in range(1001):
-            # 🚌 Update the bus load as passengers get on/off
-            current_passengers += stops[stop]
-
-            # 🚨 If the bus gets too crowded → return False
-            if current_passengers > capacity:
+        curr_passengers = 0
+        for passenger in road:
+            curr_passengers += passenger
+            if curr_passengers > capacity:
                 return False
 
-        # ✅ If we finished the route safely → trip is valid
         return True
 
 # 🔄 Dry Run:

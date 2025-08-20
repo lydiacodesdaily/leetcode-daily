@@ -2,34 +2,26 @@
 # https://leetcode.com/problems/insert-into-a-sorted-circular-linked-list/
 
 # ✅ Problem:
-# Given a node from a sorted circular linked list, insert a value so the list remains sorted.
-# Return any reference to the updated circular list.
+# Insert a value into a sorted circular linked list so that the list remains sorted.
+# The list may start at any node and can be empty.
 
-# 🧩 Base Pattern:
-# Circular Linked List Traversal
-# - Use a `do-while` style traversal to loop at least once from the given node.
-# - Insert the node when appropriate conditions are met.
+# 📚 Pattern:
+# Linked List Insertion with Circular Traversal
 
-# 🧪 Subtype:
-# Insert into Sorted List with Wraparound
-# - If value fits between two nodes normally → insert.
-# - If at the "end-start boundary" (e.g., max → min) → insert if value is smallest or largest.
-# - If all values are same → insert anywhere.
+# 🔍 Core Idea:
+# - Traverse the circular list to find the correct insertion point.
+# - Handle 3 cases:
+#   1. Normal insert: insertVal fits between current and next node.
+#   2. Insert at wrap-around point (from max to min).
+#   3. All nodes have the same value or full loop without finding a spot → insert anywhere.
 
 # 🧠 Memory Hook:
-# traverse until:
-#   1. insertVal fits between curr and next → curr.val ≤ insertVal ≤ next.val
-#   2. at wrap point: curr > next → insert if insertVal is ≥ curr or ≤ next
-#   3. full loop → insert anywhere
-# always insert: newNode.next = curr.next; curr.next = newNode
+# Traverse circularly → find node where curr.val <= insertVal <= curr.next.val
+# At max → min wrap → insert if insertVal is smallest or largest.
+# If full loop → insert anywhere.
 
-# ✅ Time Complexity: O(n)
+# ✅ Time Complexity: O(n) in the worst case (single traversal)
 # ✅ Space Complexity: O(1)
-
-# 📌 Common Gotchas:
-# - Forgetting to handle empty list (head is None)
-# - Not accounting for edge transition between max and min (e.g. 4 → 1)
-# - Infinite loop if you don't detect a full circle traversal
 
 class Node:
     def __init__(self, val: int, next: 'Node' = None):
@@ -38,40 +30,42 @@ class Node:
 
 class Solution:
     def insert(self, head: 'Node', insertVal: int) -> 'Node':
-        newNode = Node(insertVal)
+        new_node = Node(insertVal)
 
+        # Case 0: Empty list → create new circular list
         if not head:
-            newNode.next = newNode  # single node circular
-            return newNode
+            new_node.next = new_node
+            return new_node
 
         curr = head
         while True:
-            # Case 1: Normal insert between two values
+            # Case 1: Normal insert between two nodes
             if curr.val <= insertVal <= curr.next.val:
                 break
 
-            # Case 2: At the wraparound point (max → min)
+            # Case 2: At the maximum → minimum wrap-around point
             if curr.val > curr.next.val:
                 if insertVal >= curr.val or insertVal <= curr.next.val:
                     break
 
-            # Case 3: Full loop — insert anywhere
+            # Case 3: Full loop without finding spot → insert anywhere
             if curr.next == head:
                 break
 
             curr = curr.next
 
-        # Insert the node
-        newNode.next = curr.next
-        curr.next = newNode
+        # Insert new_node between curr and curr.next
+        new_node.next = curr.next
+        curr.next = new_node
+
         return head
 
-# 🔄 Dry Run:
-# Input: head = [3 → 4 → 1 (→ back to 3)], insertVal = 2
-# 1. 3 → 4 → 1 → 3: none satisfy condition 1
-# 2. 4 > 1 → wraparound case → 2 lies between max and min → insert between 1 and 3
-# Result: [3 → 4 → 1 → 2 → back to 3]
+# 🔄 Dry Run Example:
+# Input: head = [3, 4, 1] (circular), insertVal = 2
+# Step 1: Traverse → 3 → 4 → 1 → wrap-around detected → 2 fits between 1 and 3
+# Step 2: Insert 2 between 1 and 3 → return head
 
-# Edge Case:
-# Input: head = [], insertVal = 1
-# → Create single node circular: [1]
+# 📌 Common Gotchas:
+# - Handling empty list correctly → must create a self-loop.
+# - Carefully handle wrap-around point → where current node is larger than next node.
+# - Full loop → ensure insertion happens even if all nodes have same value or no valid slot is found.

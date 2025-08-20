@@ -1,3 +1,48 @@
+# LeetCode 973 - K Closest Points to Origin
+# https://leetcode.com/problems/k-closest-points-to-origin/
+
+# ✅ Problem:
+# Given a list of points on a 2D plane, return the k closest points to the origin (0, 0).
+# Distance is calculated using Euclidean distance (no need to sqrt for comparison).
+
+# 📚 Pattern:
+# Max-Heap (size k) + Custom Comparator
+
+# 🔍 Core Idea:
+# - Use a max-heap of size k to store the closest points seen so far.
+# - Compare squared distances to avoid using sqrt.
+# - If heap exceeds size k, remove the farthest point.
+
+# 🧠 Memory Hook:
+# heap = max-heap on distance → (-dist, point)  
+# push each point → if heap > k → pop farthest  
+# return [point for (_, point) in heap]
+
+# ✅ Time Complexity:
+# - O(n log k) for pushing n points into a heap of size k
+# ✅ Space Complexity: O(k) for the heap
+
+import heapq
+from typing import List
+
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        max_heap = []
+
+        for x, y in points:
+            dist = -(x*x + y*y)  # use negative for max-heap
+            heapq.heappush(max_heap, (dist, [x, y]))
+            if len(max_heap) > k:
+                heapq.heappop(max_heap)
+
+        return [point for (_, point) in max_heap]
+
+# 🔄 Example:
+# Input: points = [[1,3],[-2,2]], k = 1
+# Distances: (1^2 + 3^2) = 10, (-2^2 + 2^2) = 8
+# Output: [[-2,2]]
+
+
 import heapq
 from typing import List
 

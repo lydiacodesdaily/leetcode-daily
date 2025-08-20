@@ -8,6 +8,11 @@
 # Diagonals in a matrix follow a pattern:
 # - Each diagonal has the same sum of indices: i + j
 # - We alternate the direction of traversal for each diagonal (up ↔ down)
+# elements on the same diagonal share the same sum of indices: i + j.
+# In a matrix of size m x n:
+# - The smallest diagonal key is 0 → from matrix[0][0]
+# - The largest diagonal key is (m - 1) + (n - 1) → from matrix[m - 1][n - 1]
+# - So total diagonals: (m - 1) + (n - 1) + 1 = m + n - 1
 
 # 📚 Pattern: Matrix Traversal with Diagonal Grouping
 

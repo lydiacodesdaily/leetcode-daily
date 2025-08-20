@@ -18,7 +18,7 @@
 # - Convert num → digit freq map
 # - If freq(num_digits) ≤ freq(input digits) → valid
 
-# ✅ Time: O(1) ≈ 450 iterations
+# ✅ Time: O(1) ≈ 450 iterations (b/c around 450 valid event #s)
 # ✅ Space: O(1) extra + O(output size)
 
 from typing import List
