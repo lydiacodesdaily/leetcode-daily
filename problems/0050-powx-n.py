@@ -148,6 +148,33 @@ class Solution:
 
         return result
 
+# Below seems to be easier to dry run
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        # handle base case 
+        if x == 0:
+            return 0 
+        if n == 0:
+            return 1 
+        
+        result = 1 
+        power = abs(n)
+
+        # loop until all bits of power are processed
+        # if power = 13 (binary 1101), the loop runs while 1101 → 110 → 11 → 1 → 0
+        while power:
+            # is the lowest bit power is 1? & 1 isolates last bit;
+            # if so, it means include the power of x 
+            # If n = 13 = 1101₂ → x^{13} = x^8 \cdot x^4 \cdot x^1.
+            if power & 1:
+                result *= x 
+            x *= x # square x each time we shif, b/c move one bit to left. This means we are squaring the base
+            # x <<= n x * 2^n
+            # x >>= n x / 2^n -- these
+            power >>= 1 
+        
+        return result if n >= 0 else 1/result
+    
 # 🔄 Dry Run:
 # x = 2.0, n = 10
 # Binary of 10: 1010
@@ -173,4 +200,27 @@ power & 1
 This returns:
 	•	1 → if the last bit of power is 1 (i.e., power is odd).
 	•	0 → if the last bit of power is 0 (i.e., power is even).
+
+🧠 Dry Run Example
+
+Let’s say x = 2, n = 13.
+	•	13 in binary = 1101 = 8 + 4 + 1.
+So 2^{13} = 2^8 \cdot 2^4 \cdot 2^1 = 8192.
+
+Steps:
+	•	result = 1
+	•	power = 13 (1101), x = 2
+	•	last bit = 1 → result = 2
+	•	square x → 4, shift power → 110 (6)
+	•	power = 6 (110), x = 4
+	•	last bit = 0 → skip
+	•	square x → 16, shift power → 11 (3)
+	•	power = 3 (11), x = 16
+	•	last bit = 1 → result = 2 × 16 = 32
+	•	square x → 256, shift power → 1
+	•	power = 1 (1), x = 256
+	•	last bit = 1 → result = 32 × 256 = 8192
+	•	square x → 65536, shift power → 0
+	•	Done! ✅ result = 8192
+    
 """
