@@ -104,3 +104,23 @@ class Solution:
 # Input: nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
 # Brute Force: sort each window and pick median
 # Optimal: maintain two heaps, insert new element, lazy remove old, balance heaps
+
+"""
+Step 1: Core idea
+Use two heaps:
+- Max heap → smaller half of the window
+- Min heap → larger half of the window
+
+Why? → Median is easy to get from heap tops.
+
+Step 2: Order of Sequence
+1. Insert new element → to the correct heap.
+2. Balance heaps → max heap can only be bigger by one.
+3. Lazy remove element sliding out → from either heap.
+4. Balance again → in case removal unbalanced them.
+5. Get median from heap tops.
+
+Step 3: Memory hook
+insert → balance → lazy remove → balance → get median
+
+"""

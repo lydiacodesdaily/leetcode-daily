@@ -10,6 +10,7 @@
 
 # 🔍 Key Insight:
 # dp[i] = True if s[0:i] can be formed using wordDict
+# Can the first i characters broken into to form a valid dict or not?
 # For each i from 1 to len(s), try all j < i and check:
 #    if dp[j] is True and s[j:i] in wordDict → then dp[i] = True
 

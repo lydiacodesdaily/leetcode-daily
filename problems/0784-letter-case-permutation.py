@@ -22,7 +22,9 @@
 # - #outputs = 2^k
 # - Building each string costs O(n)
 # → Total = O(n * 2^k)
-#
+# For each letter, you have 2 choices: lowercase or uppercase
+# Hence, it's not factorial
+# 
 # ✅ Space Complexity:
 # - Aux (recursion/path): O(n)
 # - Output storage: O(n * 2^k)

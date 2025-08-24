@@ -46,3 +46,26 @@ class Solution:
 # 📌 Common Gotchas:
 # - Remember to multiply by 10 at each level to shift digits
 # - Handle leaf node correctly: return curr_sum only when both children are None
+
+"""
+🔄 Dry Run:
+ 1
+/ \
+2 3
+curr = 0
+dfs(1,0)
+    curr = 1 
+    return 12 + 13 = 25
+    dfs(2,1)
+        curr = 1*10+2 = 12
+        leaf -> return 12 
+    dfs(3,1)
+        curr = 1*10+3 = 13
+        leaf -> return 13
+
+Edge Cases:
+1. empty tree root = None 
+2. single node root = 1 
+3. unbalanced 
+
+"""

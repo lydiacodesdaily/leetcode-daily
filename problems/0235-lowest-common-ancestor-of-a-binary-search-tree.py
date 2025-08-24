@@ -20,6 +20,22 @@
 # "Both right → go right"
 # "Split → this is the LCA"
 
+"""
+BST property: left < root < right.
+
+Rule
+	•	If p.val < root.val and q.val < root.val → go left
+	•	If p.val > root.val and q.val > root.val → go right
+	•	Else → root is the split (LCA)
+
+🧠 Memory Hook
+
+BST split rule
+both < → left
+both > → right
+else → current
+"""
+
 # ✅ Time Complexity: O(h) → h = height of the tree
 # ✅ Space Complexity: O(1) if iterative, O(h) if recursive (call stack)
 
@@ -30,21 +46,20 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-        
-        # 🧭 Traverse the tree using BST property
-        while root:
-            # 🡒 Both nodes in left subtree
-            if p.val < root.val and q.val < root.val:
-                root = root.left
-            
-            # 🡒 Both nodes in right subtree
-            elif p.val > root.val and q.val > root.val:
-                root = root.right
-            
+    def lowestCommonAncestor(self, root, p, q):
+        pv, qv = p.val, q.val
+        cur = root
+        while cur:
+            if pv < cur.val and qv < cur.val:
+                # Both nodes in left subtree
+                cur = cur.left
+            elif pv > cur.val and qv > cur.val:
+                # Both nodes in right subtree
+                cur = cur.right
             else:
                 # 🟢 Split case or one is equal to root → found LCA
-                return root
+                return cur
+            
 """
 🔄 Dry Run:
 Tree:       6
