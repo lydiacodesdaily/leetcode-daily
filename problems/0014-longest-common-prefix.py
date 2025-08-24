@@ -52,3 +52,20 @@ class Solution:
 # prefix = "dog"
 # "racecar" does not start with "dog" → shrink until ""
 # return ""
+
+"""
+🎨 Visual Imagery
+
+Imagine you’re holding a long ribbon (the first string).
+	•	You walk along a line of friends (the other strings).
+	•	Each friend says: “Nope, my word doesn’t start with that much ribbon — cut it shorter!” ✂️
+	•	You keep trimming the ribbon from the end until it fits what they’re saying.
+	•	At the end of the walk, the ribbon left in your hand is the longest prefix that everyone agrees on.
+
+🧠 Memory Hook
+	•	Start with first string as ribbon.
+	•	For each word → shrink ribbon until it fits.
+	•	Stop if ribbon disappears (return “”).
+	•	Answer = ribbon after the last friend.
+
+"""
