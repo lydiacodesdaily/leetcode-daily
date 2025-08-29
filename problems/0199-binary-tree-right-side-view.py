@@ -1,64 +1,75 @@
-from typing import Optional, List
-from collections import deque
+# LeetCode 199 - Binary Tree Right Side View
+# https://leetcode.com/problems/binary-tree-right-side-view/
 
-# LeetCode 199. Binary Tree Right Side View
-# 
-# Problem:
-# Given the root of a binary tree, imagine standing on the right side of it,
-# return the values of the nodes you can see ordered from top to bottom.
-#
-# Use case:
-# - Visualizing the tree from the right side, such as rendering view or layered tree data.
-#
-# Approach:
-# - Use BFS level-order traversal.
-# - For each level, only record the last node processed (rightmost node).
-#
-# Time Complexity: O(n) where n is number of nodes
-# Space Complexity: O(w) where w is max width of tree (can be up to n)
+# ✅ Problem:
+# Given a binary tree, return the values of the nodes you can see from the right side,
+# ordered from top to bottom.
+
+# 📚 Pattern:
+# BFS - Level Order Traversal
+
+# 🔍 Core Idea:
+# Traverse the tree level by level using a queue.
+# At each level, add the **last node’s value** (rightmost) to the result list.
+
+# 🧠 Memory Hook:
+# - level order traversal
+# - last node in level = rightmost visible
+# - append `level[-1].val` to result
+
+# ✅ Time Complexity: O(n) — visit each node once
+# ✅ Space Complexity: O(n) — queue space for level traversal
+
+# 📌 Common Gotchas:
+# - Don’t confuse “right child” with “right side view”
+# - Use `for _ in range(len(queue))` to isolate each level cleanly
+
+from collections import deque
+from typing import Optional, List
 
 class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
+    def __init__(self, val: int = 0, left: 'TreeNode' = None, right: 'TreeNode' = None):
         self.val = val
         self.left = left
         self.right = right
 
-def rightSideView(root: Optional[TreeNode]) -> List[int]:
-    if not root:
-        return []
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
 
-    res = []
-    queue = deque([root])
+        result = []
+        queue = deque([root])
 
-    # Begin level-order traversal (BFS)
-    while queue:
-        level_length = len(queue)
+        # 🌱 BFS traversal
+        while queue:
+            level_size = len(queue)
+            for i in range(level_size):
+                node = queue.popleft()
 
-        # Process all nodes at the current level
-        for i in range(level_length):
-            node = queue.popleft()
+                # 👀 Capture the last node of the current level
+                if i == level_size - 1:
+                    result.append(node.val)
 
-            # Dry run example comment: If we're at the last node of the level, add it to result
-            if i == level_length - 1:
-                res.append(node.val)
+                # 🌿 Push left and right children
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
 
-            # Push child nodes into queue for next level
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
+        return result
 
-    return res
-
-# Dry run example:
+# 🔄 Dry Run:
 # Tree:
-#     1
-#    / \
-#   2   3
-#    \    \
-#     5    4
-#
-# Level 0 → [1] → add 1
-# Level 1 → [2, 3] → add 3
-# Level 2 → [5, 4] → add 4
+#       1
+#     /   \
+#    2     3
+#     \     \
+#      5     4
+
+# Levels:
+# [1] → add 1
+# [2,3] → add 3
+# [5,4] → add 4
+
 # Output: [1, 3, 4]

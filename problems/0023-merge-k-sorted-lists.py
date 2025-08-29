@@ -1,67 +1,60 @@
-# 23. Merge K Sorted Lists
+# LeetCode 23 - Merge K Sorted Lists
 # https://leetcode.com/problems/merge-k-sorted-lists/
 
-"""
-🧠 Pattern: Heap (Min Heap) / K-way Merge
-🎯 Problem: Merge k sorted linked lists into one sorted list
-📌 Use Cases:
-- Merging K sorted streams of data
-- Combining sorted logs or files
+# ✅ Problem:
+# Merge k sorted linked lists and return it as one sorted list.
 
-⏰ Time Complexity: O(N log k)
-   - N = total number of nodes
-   - k = number of linked lists
-📦 Space Complexity: O(k)
-   - For the min heap (at most one node per list)
-"""
+# 📚 Pattern:
+# Heap / Priority Queue
 
-from typing import List, Optional, Tuple
-import heapq
+# 🔍 Core Idea:
+# Use a min-heap to always extract the smallest head among the lists.
+# When popping a node, push its next into the heap (if available).
+
+# 🧠 Memory Hook:
+# use min-heap of (val, node)
+# push head of each list
+# pop smallest, append to result, push next of popped node
+
+# ✅ Time Complexity: O(N log k)
+# - N = total number of nodes across all lists
+# - k = number of lists
+# ✅ Space Complexity: O(k) - size of the heap
+
+from typing import List, Optional
+from heapq import heappush, heappop
 
 class ListNode:
-    def __init__(self, val: int = 0, next: Optional['ListNode'] = None):
+    def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
-    
-    def __repr__(self):
-        return f"{self.val} -> {self.next}"
 
-def mergeKLists(lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-    # Dummy head to simplify node merging
-    dummy = ListNode()
-    curr = dummy
+    def __lt__(self, other):
+        # Define less-than for heapq to work correctly with ListNode
+        return self.val < other.val
 
-    # Min-heap to store (node value, list index, node)
-    min_heap: List[Tuple[int, int, ListNode]] = []
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        min_heap = []
 
-    # Step 1: Initialize the heap with the first node from each list
-    for i, node in enumerate(lists):
-        if node:
-            heapq.heappush(min_heap, (node.val, i, node))
+        # Step 1: Push the head node of each list into heap
+        for i, node in enumerate(lists):
+            if node:
+                heappush(min_heap, (node.val, i, node))  # index prevents comparison issues
 
-    # Step 2: Extract min node and push its next node into the heap
-    # Dry run input example:
-    # lists = [
-    #     1 -> 4 -> 5,
-    #     1 -> 3 -> 4,
-    #     2 -> 6
-    # ]
-    # Initial heap after pushing heads:
-    # heap = [(1, 0, node_0), (1, 1, node_1), (2, 2, node_2)]
+        dummy = ListNode(0)
+        current = dummy
 
-    while min_heap:
-        val, i, node = heapq.heappop(min_heap)
-        curr.next = node  # Append to result list
-        curr = curr.next  # Move pointer forward
+        # Step 2: Pop the smallest node, attach to result, push its next
+        while min_heap:
+            val, i, node = heappop(min_heap)
+            current.next = node
+            current = current.next
 
-        # Push the next node from the same list, if exists
-        if node.next:
-            heapq.heappush(min_heap, (node.next.val, i, node.next))
+            if node.next:
+                heappush(min_heap, (node.next.val, i, node.next))
 
-    return dummy.next
-
-# Final output for the dry run example:
-# 1 -> 1 -> 2 -> 3 -> 4 -> 4 -> 5 -> 6
+        return dummy.next
 
 """
 🧪 Example Input:

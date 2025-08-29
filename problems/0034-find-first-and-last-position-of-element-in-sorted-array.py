@@ -2,23 +2,30 @@
 # https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 
 # ✅ Problem:
-# Given an array of integers sorted in ascending order and a target value,
-# find the first and last position of the target.
-# If the target is not found, return [-1, -1].
+# Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+# If target is not found in the array, return [-1, -1].
 
 # 📚 Pattern:
-# Binary Search (Modified Bound Search)
-# - First binary search to find the **left bound**
-# - Second binary search to find the **right bound**
+# Binary Search
 
-# ✅ Time Complexity: O(log n) - binary search twice
-# ✅ Space Complexity: O(1)
+# 🔍 Core Idea:
+# Perform two binary searches:
+# - First to find the leftmost (first) occurrence of the target.
+# - Second to find the rightmost (last) occurrence of the target.
+# Search space is reduced by focusing on left or right boundaries even after finding the target.
 
 # 🧠 Memory Hook:
-# binary search twice: once for first occurrence, once for last
-# if nums[mid] == target → store result, keep searching left/right
-# if is_first → move right = mid - 1
-# if not is_first → move left = mid + 1
+# run two binary searches:
+# - search for first → if found, keep searching left
+# - search for last → if found, keep searching right
+# return [first, last]
+
+# ✅ Time Complexity: O(log n) — two binary searches
+# ✅ Space Complexity: O(1)
+
+# 📌 Common Gotchas:
+# - Make sure to keep searching even after finding target (continue left/right)
+# - Handle edge cases when target is not found
 
 from typing import List
 
@@ -33,11 +40,10 @@ class Solution:
 
                 if nums[mid] == target:
                     result = mid
-                    # Keep searching left or right depending on bound
                     if is_first:
-                        right = mid - 1
+                        right = mid - 1  # Keep searching left
                     else:
-                        left = mid + 1
+                        left = mid + 1   # Keep searching right
                 elif nums[mid] < target:
                     left = mid + 1
                 else:
@@ -47,26 +53,10 @@ class Solution:
 
         return [find_bound(True), find_bound(False)]
 
-"""
-🧪 Example Test Cases:
-
-nums = [5,7,7,8,8,10], target = 8
-# Output: [3, 4]
-
-nums = [5,7,7,8,8,10], target = 6
-# Output: [-1, -1]
-
-nums = [], target = 0
-# Output: [-1, -1]
-
-nums = [1], target = 1
-# Output: [0, 0]
-
-nums = [2, 2], target = 2
-# Output: [0, 1]
-"""
-# 🔍 Example:
-# nums = [5,7,7,8,8,10], target = 8
-# First bound: index 3
-# Last bound: index 4
-# Output: [3, 4] ✅
+# 🔄 Dry Run:
+# Input: nums = [5,7,7,8,8,10], target = 8
+# First search (find leftmost):
+# → find_bound(True) returns 3
+# Second search (find rightmost):
+# → find_bound(False) returns 4
+# Final answer: [3, 4]
