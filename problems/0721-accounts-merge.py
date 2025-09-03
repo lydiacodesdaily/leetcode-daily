@@ -96,3 +96,20 @@ if __name__ == "__main__":
     merged = sol.accountsMerge(accounts)
     for group in merged:
         print(group)
+"""
+Input:
+accounts = [
+  ["John","johnsmith@mail.com","john_newyork@mail.com"],
+  ["John","johnsmith@mail.com","john00@mail.com"],
+  ["Mary","mary@mail.com"],
+  ["John","johnnybravo@mail.com"]
+]
+
+parent = {} email -> primary email
+email_to_name = {} email -> name 
+
+Account 0: ["John","johnsmith@mail.com","john_newyork@mail.com"]
+loop: 
+first_email johnsmith 
+
+"""
