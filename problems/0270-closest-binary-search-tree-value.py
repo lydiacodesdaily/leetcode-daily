@@ -32,10 +32,12 @@ class Solution:
         closest = root.val
         
         while root:
+            diff = abs(root.val-target)
+            best = abs(closest-target)
             # 🧮 Update closest if this node is closer to target
-            if abs(root.val - target) < abs(closest - target):
+            if diff < best:
                 closest = root.val
-            elif abs(root.val - target) == abs(closest - target):
+            elif diff == best:
                 closest = min(closest, root.val)
 
             # 🧭 Navigate BST
