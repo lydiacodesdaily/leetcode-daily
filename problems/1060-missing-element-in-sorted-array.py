@@ -28,7 +28,7 @@ class Solution:
     def missingElement(self, nums: List[int], k: int) -> int:
         def missing(idx):
             # How many numbers are missing until index `idx`
-            return nums[idx] - nums[0] - idx
+            return nums[idx] - (idx + nums[0])
 
         n = len(nums)
         
@@ -43,7 +43,7 @@ class Solution:
 
         # 🔚 After binary search:
         # left is the first index where missing(left) >= k
-        # We need to go back one step and compute how many more to go
+        # We overshot, so need to go back one step and compute how many more to go
         return nums[left - 1] + (k - missing(left - 1))
         """
         🧠 What’s happening here?
