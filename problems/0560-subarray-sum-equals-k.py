@@ -16,6 +16,7 @@
 # - Each such earlier prefix corresponds to a valid subarray ending here.
 #
 # 🧠 Memory Hook:
+# prefix[i] = prefix[j] - k
 # - need earlier = current_prefix - k
 # - answer += freq[current_prefix - k]
 # - then freq[current_prefix] += 1

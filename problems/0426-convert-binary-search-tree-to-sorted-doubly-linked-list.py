@@ -82,3 +82,62 @@ class Solution:
 # In-order: 1 → 2 → 3 → 4 → 5
 # Output DLL: 1 ⇄ 2 ⇄ 3 ⇄ 4 ⇄ 5 (circular)
 # - 1.left = 5, 5.right = 1
+
+# -------------------------------
+# 🔄 DRY RUN (write these as comments while coding)
+# Tree:
+#        4
+#      /   \
+#     2     5
+#    / \
+#   1   3
+#
+# Inorder: 1, 2, 3, 4, 5  (this will be the DLL order)
+#
+# Init:
+#   first=None, last=None
+#
+# dfs(4)
+#   dfs(2)
+#     dfs(1)
+#       dfs(None) -> return
+#       visit(1):
+#         last is None → first=1
+#         last=1
+#       dfs(None) -> return
+#     visit(2):
+#       last=1 → link 1<->2:
+#         1.right=2
+#         2.left=1
+#       last=2
+#     dfs(3)
+#       dfs(None) -> return
+#       visit(3):
+#         last=2 → link 2<->3:
+#           2.right=3
+#           3.left=2
+#         last=3
+#       dfs(None) -> return
+#   visit(4):
+#     last=3 → link 3<->4:
+#       3.right=4
+#       4.left=3
+#     last=4
+#   dfs(5)
+#     dfs(None) -> return
+#     visit(5):
+#       last=4 → link 4<->5:
+#         4.right=5
+#         5.left=4
+#       last=5
+#     dfs(None) -> return
+#
+# After DFS:
+#   first=1, last=5
+#   Close circle:
+#     first.left = last  → 1.left = 5
+#     last.right = first → 5.right = 1
+#
+# DLL (circular):
+#   1 <-> 2 <-> 3 <-> 4 <-> 5
+#   and 5.right -> 1, 1.left -> 5
