@@ -42,6 +42,18 @@ class Solution:
         # Find the first index where prefix[i] >= target
         return bisect.bisect_left(self.prefix, target) #  bisect_left finds which segment it falls into
 
+        """
+        left, right = 0, len(self.prefix)
+        while left < right:
+            mid = (left + right) // 2 
+            if self.prefix[mid] >= target:
+                right = mid
+            else:
+                left = mid + 1 
+        return left
+        """
+
+
 # 🔄 Dry Run:
 # Input: w = [1, 3, 2]
 # prefix = [1, 4, 6]
