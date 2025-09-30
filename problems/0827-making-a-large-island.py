@@ -73,3 +73,17 @@ class Solution:
 # - Remember to skip duplicate neighbors by checking `seen`
 # - Don’t flip unless `grid[r][c] == 0`
 # - Edge case: grid already all 1s → return n * n
+
+"""
+grid (after Step 1 labeling):
+2 0
+0 3
+area = {2:1, 3:1}
+
+Try flip (0,1):
+  neighbors: (0,0)=2, (1,1)=3 → distinct islands {2,3}
+  new_area = 1 (flipped) + area[2]=1 + area[3]=1 = 3
+max_area = 3
+
+Any other flip gives at most 2 here. Final = 3.
+"""
