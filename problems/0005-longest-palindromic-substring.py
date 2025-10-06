@@ -32,7 +32,10 @@ class Solution:
             while left >= 0 and right < len(s) and s[left] == s[right]:
                 left -= 1
                 right += 1
-            return right - left - 1  # length of the palindrome
+            return (right-1) - (left+1) + 1  # length of the palindrome
+            # after while loop, left & right overshoot by 1
+            # valid palindrome = [left+1 : right-1]
+            # → len = right - left - 1
 
         for i in range(len(s)):
             len1 = expand_from_center(i, i)     # odd-length center
