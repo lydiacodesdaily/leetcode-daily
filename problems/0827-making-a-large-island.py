@@ -55,7 +55,7 @@ class Solution:
                     for dr, dc in directions:
                         nr, nc = r + dr, c + dc
                         if 0 <= nr < n and 0 <= nc < n:
-                            id = grid[nr][nc]
+                            id = grid[nr][nc] # stores seen island_id
                             if id > 1 and id not in seen:
                                 new_area += area[id]
                                 seen.add(id)
