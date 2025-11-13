@@ -1,4 +1,4 @@
-# 🧠 Lydia's LeetCode Daily Log (2025– )
+# Lydia's LeetCode Daily Log (2025– )
 
 Hi! I’m Lydia — a senior software engineer building deeper mastery in algorithms, system design, and technical interviewing.
 
