@@ -19,6 +19,7 @@ Grid BFS (multi-source)
 - Start BFS from *all* initially rotten oranges (multi-source BFS).
 - Each BFS level = 1 minute.
 - Keep track of fresh oranges count — stop when all rotten or BFS ends.
+- ❌ Why DFS Fails: DFS explores depth-first, but rotting happens simultaneously in all directions (level by level) 
 
 🧠 Memory Hook:
 "Multi-source BFS = spread from all rotters at once"
